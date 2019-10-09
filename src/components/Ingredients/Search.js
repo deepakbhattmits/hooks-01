@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Card from '../UI/Card';
+import TextInput from '../UI/TextInput'
 import './Search.css';
 
 const Search = React.memo(props => {
@@ -9,7 +10,7 @@ const Search = React.memo(props => {
       <Card>
         <div className="search-input">
           <label>Filter by Title</label>
-          <input type="text" />
+          <TextInput type="text" />
         </div>
       </Card>
     </section>

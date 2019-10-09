@@ -1,6 +1,7 @@
 import React from 'react';
 
 import IngredientForm from './IngredientForm';
+import IngredientList from './IngredientList';
 import Search from './Search';
 
 function Ingredients() {
@@ -10,7 +11,7 @@ function Ingredients() {
 
       <section>
         <Search />
-        {/* Need to add list here! */}
+        <IngredientList />
       </section>
     </div>
   );
