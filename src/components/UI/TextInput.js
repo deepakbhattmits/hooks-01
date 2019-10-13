@@ -1,11 +1,13 @@
 import React from 'react'
 
 const TextInput = props => {
+    const { refe, id, type, value, onChange } = props;
     return <input
-        id={props.id}
-        type={props.type}
-        value={props.value}
-        onChange={props.onChange}
+        ref={refe}
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
     />
 }
 export default TextInput;

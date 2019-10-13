@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 
 import Card from '../UI/Card';
 import TextInput from '../UI/TextInput'
@@ -7,22 +7,28 @@ import './Search.css';
 const Search = memo(props => {
   const { onLoadIngredients } = props
   const [enteredFilter, setEnteredFilter] = useState('')
+  const inputRef = useRef();
   useEffect(() => {
-    const query = enteredFilter.length === 0 ? '' : `?orderBy="title"&equalTo="${enteredFilter}"`
-    fetch('https://hooks-01.firebaseio.com/ingredients.json' + query).then(response => {
-      return response.json();
-    }).then(respnseData => {
-      const loadedIngredients = [];
-      for (const key in respnseData) {
-        loadedIngredients.push({
-          id: key,
-          title: respnseData[key].title,
-          amount: respnseData[key].amount
+    setTimeout(() => {
+      if (enteredFilter === inputRef.current.value) {
+        const query = enteredFilter.length === 0 ? '' : `?orderBy="title"&equalTo="${enteredFilter}"`
+        fetch('https://hooks-01.firebaseio.com/ingredients.json' + query).then(response => {
+          return response.json();
+        }).then(respnseData => {
+          const loadedIngredients = [];
+          for (const key in respnseData) {
+            loadedIngredients.push({
+              id: key,
+              title: respnseData[key].title,
+              amount: respnseData[key].amount
+            })
+          }
+          onLoadIngredients(loadedIngredients)
         })
       }
-      onLoadIngredients(loadedIngredients)
-    })
-  }, [enteredFilter, onLoadIngredients])
+    }, 500)
+
+  }, [enteredFilter, onLoadIngredients, inputRef])
   const handleChange = e => {
     const { id, value } = e.target;
     if (id === 'filter') {
@@ -34,7 +40,7 @@ const Search = memo(props => {
       <Card>
         <div className="search-input">
           <label htmlFor='filter' >Filter by Title</label>
-          <TextInput id='filter' type="text" value={enteredFilter} onChange={handleChange} />
+          <TextInput refe={inputRef} id='filter' type="text" value={enteredFilter} onChange={handleChange} />
         </div>
       </Card>
     </section>
