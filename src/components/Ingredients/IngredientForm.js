@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-// import TextInput from "../UI/TextInput";
+import LoadingIndicator from "../UI/LoadingIndicator";
 import Button from "../UI/Button";
 
 import Card from "../UI/Card";
@@ -47,6 +47,7 @@ const IngredientForm = memo(props => {
           </div>
           <div className="ingredient-form__actions">
             <Button className="button">Add Ingredient</Button>
+            {props.isLoading && <LoadingIndicator />}
           </div>
         </form>
       </Card>

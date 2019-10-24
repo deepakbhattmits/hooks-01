@@ -4,8 +4,12 @@ import IngredientForm from "./IngredientForm";
 
 import IngredientList from "./IngredientList";
 import Search from "./Search";
+
+import ErrorModal from '../UI/ErrorModal'
 const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   // useEffect(() => {
   //   fetch('https://hooks-01.firebaseio.com/ingredients.json').then(response => {
   //     return response.json();
@@ -27,11 +31,13 @@ const Ingredients = () => {
 
 
   const addIngredientsHandler = ingredients => {
+    setIsLoading(true)
     fetch('https://hooks-01.firebaseio.com/ingredients.json', {
       method: 'POST',
       body: JSON.stringify(ingredients),
       headers: { 'Content-Type': 'application/json' }
     }).then(response => {
+      setIsLoading(false)
       return response.json();
     }).then(respnseData => {
       setUserIngredients(prevIngredients => [
@@ -41,13 +47,34 @@ const Ingredients = () => {
     })
 
   };
+
+  const removeIngredientHandler = ingredientId => {
+    setIsLoading(true)
+    fetch(`https://hooks-01.firebaseio.com/ingredients/${ingredientId}.jsn`, {
+      method: 'DELETE'
+    }).then(response => {
+      setIsLoading(false)
+      setUserIngredients(prevIngredients => prevIngredients.filter(ingredient => ingredient.id !== ingredientId))
+    }).catch(
+      error => {
+        setError(error.message)
+        setIsLoading(false)
+      }
+    )
+  }
+  const clearError = () => {
+    setError(null);
+
+  }
+
   return (
     <div className="App">
-      <IngredientForm onAddIngredientsHandler={addIngredientsHandler} />
+      {error && <ErrorModal onClose={clearError} />}
+      <IngredientForm onAddIngredientsHandler={addIngredientsHandler} isLoading={isLoading} />
 
       <section>
         <Search onLoadIngredients={filteredIngredientHandeler} />
-        <IngredientList ingredients={userIngredients} onRemoveItem={() => { }} />
+        <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
       </section>
     </div>
   );
