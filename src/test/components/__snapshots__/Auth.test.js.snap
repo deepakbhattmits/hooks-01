@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Auth correctly 1`] = `
+"<div className=\\"auth\\">
+  <Card>
+    <h2>
+      You are not authenticated!
+    </h2>
+    <p>
+      Please log in to continue.
+    </p>
+    <button onClick={[Function: loginHandler]}>
+      Log In
+    </button>
+  </Card>
+</div>"
+`;
