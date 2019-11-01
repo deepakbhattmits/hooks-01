@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from "react";
+import React, { useState, useEffect,useReducer, useCallback } from "react";
 
 import IngredientForm from "./IngredientForm";
 
@@ -35,13 +35,32 @@ const httpReducer = (curHttpState, action) => {
   }
 }
 const Ingredients = () => {
+
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
   const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null })
 
   const filteredIngredientHandeler = useCallback(filteredIngredients => {
-    // setUserIngredients(filteredIngredients)
     dispatch({ type: 'SET', ingredients: filteredIngredients })
   }, []);
+  const listener = e => {
+
+    let stickyContainer = document.getElementById("sticky-container");
+console.log(document.scrollingElement.scrollTop, stickyContainer && stickyContainer.offsetTop ? stickyContainer.offsetTop : 0);
+    if(document.scrollingElement.scrollTop < 100) {
+      setLastScrollTop(false)
+    } else {
+      setLastScrollTop(true)
+    }
+  
+  };
+  useEffect(()=>{
+    window.addEventListener("scroll", listener);
+    return () => {
+      window.removeEventListener("scroll", listener);
+    };
+  })
 
 
   const addIngredientsHandler = ingredients => {
@@ -96,6 +115,11 @@ const Ingredients = () => {
       <section>
         <Search onLoadIngredients={filteredIngredientHandeler} />
         <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
+      </section>
+      <section id='sticky-container'>
+      
+        he is me
+        {lastScrollTop&&<div>hello i am runing</div>}
       </section>
     </div>
   );
