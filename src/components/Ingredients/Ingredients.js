@@ -37,24 +37,7 @@ const httpReducer = (curHttpState, action) => {
 const Ingredients = () => {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
   const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null })
-  // const [userIngredients, setUserIngredients] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState();
-  // useEffect(() => {
-  //   fetch('https://hooks-01.firebaseio.com/ingredients.json').then(response => {
-  //     return response.json();
-  //   }).then(respnseData => {
-  //     const loadedIngredients = [];
-  //     for (const key in respnseData) {
-  //       loadedIngredients.push({
-  //         id: key,
-  //         title: respnseData[key].title,
-  //         amount: respnseData[key].amount
-  //       })
-  //     }
-  //     setUserIngredients(loadedIngredients)
-  //   })
-  // }, [])
+
   const filteredIngredientHandeler = useCallback(filteredIngredients => {
     // setUserIngredients(filteredIngredients)
     dispatch({ type: 'SET', ingredients: filteredIngredients })

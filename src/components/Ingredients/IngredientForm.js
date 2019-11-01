@@ -10,9 +10,22 @@ const IngredientForm = memo(props => {
   const [enteredAmount, setEnteredAmount] = useState("");
   const submitHandler = e => {
     e.preventDefault();
-    props.onAddIngredientsHandler({ title: enteredTitle, amount: enteredAmount })
+    if (validate()) {
+      props.onAddIngredientsHandler({ title: enteredTitle, amount: enteredAmount })
+    } else {
+      alert('Please enter title and amount')
+    }
     // ...
   };
+  const validate = () => {
+    let formValid = false
+    if (enteredTitle && enteredAmount) {
+      formValid = true
+    } else if (!enteredTitle || !enteredAmount) {
+      formValid = false
+    }
+    return formValid
+  }
   const handleChange = e => {
     const { id, value } = e.target;
     if (id === "title") {
