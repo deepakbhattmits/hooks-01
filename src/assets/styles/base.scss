@@ -1,0 +1,32 @@
+@import './settings.scss';
+body {
+    background-color: var(--color-body-bg);
+}
+
+button {
+	font: inherit;
+    background-color: var(--color-button-bg);
+	padding: 0.5rem 2rem;
+	color: var(--color-text);
+	border: 1px solid var(--color-button-bg);
+	margin: 0.5rem 0;
+	border-radius: 5px;
+	cursor: pointer;
+	&:focus {
+		outline: none;
+	}
+}
+button:hover,
+  button:active {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
+}
+    .card {
+        box-shadow: 0 2px 8px var(--color-box-shadow-fill);
+    }
+    .visible {
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--color-button-bg);
+    }

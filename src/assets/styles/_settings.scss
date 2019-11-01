@@ -1,0 +1,10 @@
+$color-bg: #ff2058;
+$color-text: #000;
+:root {
+    --color-button-bg:  #{$color-bg};
+    --color-text: #{$color-text};
+    --color-primary: #{$color-bg};
+    --color-secondary: #0c969b;
+    --color-body-bg: rgba(255, 255, 255, 0.9);
+    --color-box-shadow-fill: rgba(5, 5, 5, 0.26);
+}

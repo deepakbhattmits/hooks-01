@@ -1,10 +1,11 @@
-import React, { useState, useEffect,useReducer, useCallback } from "react";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
 
 import IngredientForm from "./IngredientForm";
 
 import IngredientList from "./IngredientList";
 import Search from "./Search";
 import ErrorModal from '../UI/ErrorModal'
+// import video from '../../assets/videos/react-hooks-01-intro.mp4'
 
 const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
@@ -46,16 +47,17 @@ const Ingredients = () => {
   }, []);
   const listener = e => {
 
-    let stickyContainer = document.getElementById("sticky-container");
-console.log(document.scrollingElement.scrollTop, stickyContainer && stickyContainer.offsetTop ? stickyContainer.offsetTop : 0);
-    if(document.scrollingElement.scrollTop < 100) {
+    // let stickyContainer = document.getElementById("sticky-container");
+    let stickyContainerAbove = document.getElementById("sticky-container-above");
+    //console.log(stickyContainerAbove.offsetTop, document.scrollingElement.scrollTop, stickyContainer && stickyContainer.offsetTop ? stickyContainer.offsetTop : 0);
+    if (document.scrollingElement.scrollTop < stickyContainerAbove.offsetTop) {
       setLastScrollTop(false)
     } else {
       setLastScrollTop(true)
     }
-  
+
   };
-  useEffect(()=>{
+  useEffect(() => {
     window.addEventListener("scroll", listener);
     return () => {
       window.removeEventListener("scroll", listener);
@@ -112,14 +114,21 @@ console.log(document.scrollingElement.scrollTop, stickyContainer && stickyContai
       {httpState.error && <ErrorModal onClose={clearError} >{httpState.error}</ErrorModal>}
       <IngredientForm onAddIngredientsHandler={addIngredientsHandler} isLoading={httpState.loading} />
 
-      <section>
+      <section id='sticky-container-above'>
         <Search onLoadIngredients={filteredIngredientHandeler} />
         <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
       </section>
       <section id='sticky-container'>
-      
+
         he is me
-        {lastScrollTop&&<div>hello i am runing</div>}
+        {lastScrollTop && <div className='visible'>
+          {/* {`i am displayed only on visible`} */}
+          <video width="320" height="240" controls={false} autoPlay={lastScrollTop}>
+            <source src={require('../../assets/videos/react-hooks-01-intro.mp4')} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+        </div>}
       </section>
     </div>
   );

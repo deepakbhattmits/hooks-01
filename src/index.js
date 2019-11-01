@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import './index.css';
+import './assets/styles/base.scss';
 import App from './App';
 import AuthContextProvider from './context/auth-context';
 const rootElement = document.querySelector('#root');
