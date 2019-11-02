@@ -5,7 +5,7 @@ import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import Search from "./Search";
 import ErrorModal from '../UI/ErrorModal'
-// import video from '../../assets/videos/react-hooks-01-intro.mp4'
+import videoUrl from '../../assets/videos/react-hooks-01-intro.mp4'
 
 const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
@@ -37,7 +37,7 @@ const httpReducer = (curHttpState, action) => {
 }
 const Ingredients = () => {
 
-  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(false);
 
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
   const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null })
@@ -46,19 +46,33 @@ const Ingredients = () => {
     dispatch({ type: 'SET', ingredients: filteredIngredients })
   }, []);
   const listener = e => {
-
-    // let stickyContainer = document.getElementById("sticky-container");
-    let stickyContainerAbove = document.getElementById("sticky-container-above");
-    //console.log(stickyContainerAbove.offsetTop, document.scrollingElement.scrollTop, stickyContainer && stickyContainer.offsetTop ? stickyContainer.offsetTop : 0);
-    if (document.scrollingElement.scrollTop < stickyContainerAbove.offsetTop) {
-      setLastScrollTop(false)
+    let elem = document.querySelector('#video');
+    let bounding = elem.getBoundingClientRect();
+    console.log(bounding.top, bounding.bottom, window.screen.height)
+    // checking whether fully visible
+    if (bounding.top >= 0 && bounding.bottom <= window.screen.height) {
+      console.log('Element is fully visible in screen');
+      setAutoPlay(true)
     } else {
-      setLastScrollTop(true)
+      setAutoPlay(false)
     }
+
+    // checking for partial visibility
+    // if (bounding.top <= window.screen.height && bounding.bottom >= 0) {
+    //   console.log('Element is partially visible in screen');
+    //   setAutoPlay(false)
+    // }
+    // if (parseInt(bounding.bottom + 4) === elem.offsetTop) {
+    //   setAutoPlay(true)
+    // } else {
+    //   setAutoPlay(false)
+    // }
 
   };
   useEffect(() => {
+
     window.addEventListener("scroll", listener);
+
     return () => {
       window.removeEventListener("scroll", listener);
     };
@@ -89,7 +103,7 @@ const Ingredients = () => {
   const removeIngredientHandler = ingredientId => {
     // setIsLoading(true)
     dispatchHttp({ type: 'SEND' })
-    fetch(`https://hooks-01.firebaseio.com/ingredients/${ingredientId}.jon`, {
+    fetch(`https://hooks-01.firebaseio.com/ingredients/${ingredientId}.json`, {
       method: 'DELETE'
     }).then(response => {
       // setIsLoading(false)
@@ -111,26 +125,36 @@ const Ingredients = () => {
 
   return (
     <div className="App">
+      {`HI ${autoPlay}`}
       {httpState.error && <ErrorModal onClose={clearError} >{httpState.error}</ErrorModal>}
       <IngredientForm onAddIngredientsHandler={addIngredientsHandler} isLoading={httpState.loading} />
 
-      <section id='sticky-container-above'>
+      <section>
         <Search onLoadIngredients={filteredIngredientHandeler} />
         <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
       </section>
-      <section id='sticky-container'>
-
-        he is me
-        {lastScrollTop && <div className='visible'>
-          {/* {`i am displayed only on visible`} */}
-          <video width="320" height="240" controls={false} autoPlay={lastScrollTop}>
-            <source src={require('../../assets/videos/react-hooks-01-intro.mp4')} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-
-        </div>}
+      <section id="video">
+        {`check ${autoPlay}`}
+        {autoPlay && <video width="320" height="240" controls={false} autoPlay={autoPlay} >
+          <source src={videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>}
       </section>
-    </div>
+      {autoPlay && <section>
+
+        yes i am partially  visible <span>{autoPlay}</span>
+
+        <div className='visible'>
+
+          i am displayed only on visible
+
+        </div>
+
+      </section>}
+
+
+
+    </div >
   );
 };
 
