@@ -46,15 +46,20 @@ const Ingredients = () => {
     dispatch({ type: 'SET', ingredients: filteredIngredients })
   }, []);
   const listener = e => {
-    let elem = document.querySelector('#video');
+    let elem = document.querySelector('#videoRef');
+
+    let elemMain = document.querySelector('#videoMain');
     let bounding = elem.getBoundingClientRect();
     console.log(bounding.top, bounding.bottom, window.screen.height)
     // checking whether fully visible
     if (bounding.top >= 0 && bounding.bottom <= window.screen.height) {
       console.log('Element is fully visible in screen');
       setAutoPlay(true)
+      elemMain.setAttribute('autoPlay', autoPlay)
+
     } else {
       setAutoPlay(false)
+      elemMain.setAttribute('autoPlay', autoPlay)
     }
 
     // checking for partial visibility
@@ -133,14 +138,8 @@ const Ingredients = () => {
         <Search onLoadIngredients={filteredIngredientHandeler} />
         <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
       </section>
-      <section id="video">
-        {`check ${autoPlay}`}
-        {autoPlay && <video width="320" height="240" controls={false} autoPlay={autoPlay} >
-          <source src={videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>}
-      </section>
-      {autoPlay && <section>
+
+      <section>
 
         yes i am partially  visible <span>{autoPlay}</span>
 
@@ -150,7 +149,14 @@ const Ingredients = () => {
 
         </div>
 
-      </section>}
+      </section>
+      <section id="videoRef">
+        {`check ${autoPlay}`}
+        <video id="videoMain" width="320" height="240" controls={false} autoPlay={false}>
+          <source src={videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </section>
 
 
 
