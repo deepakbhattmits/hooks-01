@@ -1,8 +1,21 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import './ErrorModal.css';
 
 const ErrorModal = React.memo(props => {
+  const handleUserKeyPress = e => {
+    const { keyCode } = e;
+    if (keyCode === 27 || keyCode === 13) {
+      props.onClose();
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('keydown', handleUserKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleUserKeyPress);
+    };
+  });
   return (
     <Fragment>
       <div className="backdrop" onClick={props.onClose} />

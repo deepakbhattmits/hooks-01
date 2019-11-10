@@ -11,7 +11,7 @@ const IngredientForm = memo(props => {
   const submitHandler = e => {
     e.preventDefault();
     if (validate()) {
-      props.onAddIngredientsHandler({ title: enteredTitle, amount: enteredAmount })
+      props.onAddIngredient({ title: enteredTitle, amount: enteredAmount })
     } else {
       alert('Please enter title and amount')
     }
@@ -59,7 +59,7 @@ const IngredientForm = memo(props => {
             />
           </div>
           <div className="ingredient-form__actions">
-            <Button className="button">Add Ingredient</Button>
+            <Button className="button" type='submit'>Add Ingredient</Button>
             {props.isLoading && <LoadingIndicator />}
           </div>
         </form>

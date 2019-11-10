@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with increment button 1`] = `
+"<div data-test=\\"component-click-counter\\">
+  <h1 dataTest=\\"counter-display\\">
+    0
+  </h1>
+  <button data-test=\\"increment-button\\" type=\\"submit\\" onClick={[Function: handleClick]}>
+    increment button
+  </button>
+</div>"
+`;
+
+exports[`renders without crashing 1`] = `
+"<div data-test=\\"component-click-counter\\">
+  <h1 dataTest=\\"counter-display\\">
+    0
+  </h1>
+  <button data-test=\\"increment-button\\" type=\\"submit\\" onClick={[Function: handleClick]}>
+    increment button
+  </button>
+</div>"
+`;
