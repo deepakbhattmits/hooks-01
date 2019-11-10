@@ -59,7 +59,7 @@ const Ingredients = () => {
   const removeIngredientHandler = useCallback(
     ingredientId => {
       sendRequest(
-        `https://hooks-01.firebaseio.com/ingredients/${ingredientId}.jon`,
+        `https://hooks-01.firebaseio.com/ingredients/${ingredientId}.json`,
         'DELETE',
         null,
         ingredientId,
